@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -56,6 +58,14 @@ class Event
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'events')]
     private $user;
+
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Demande::class)]
+    private $demandes;
+
+    public function __construct()
+    {
+        $this->demandes = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -195,6 +205,36 @@ class Event
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
+
+    public function addDemande(Demande $demande): self
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes[] = $demande;
+            $demande->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demande $demande): self
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getEvent() === $this) {
+                $demande->setEvent(null);
+            }
+        }
 
         return $this;
     }

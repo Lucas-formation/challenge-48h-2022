@@ -14,8 +14,22 @@
 				{{ event.description|raw }}
 			
 			</div>
-			        <div class="card-body">
+			<div class="card-body">
             <p class="card-text text-end fw-bold">{{ event.place }}</p>
+            </div>
+
+
+		{% for demande in demandes %}
+			
+		
+			{{ form_start(form) }}
+		{% if demande.user is same as(app.user) %}
+		
+    	{{ form_widget(form.submit)}}
+		{% endif %}
+
+		{{ form_end(form) }}
+		{% endfor %}
             </div>
 		</article>
 

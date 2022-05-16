@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Demande;
 use App\Form\EventType;
 use App\Form\RechercheType;
+use App\Form\SubmitType as sub;
 use App\Repository\EventRepository;
+use App\Repository\DemandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,10 +79,28 @@ class MainController extends AbstractController
             
 }
 #[Route('/challenge/show/{id}', name: 'show_event')]
-    public function show(Event $event): Response
+    public function show(Event $event, Request $request,EntityManagerInterface $manager, DemandeRepository $repo): Response
     {
+        $demandes = $repo->findBy(['user' => $this->getUser()]);
+        $form = $this-> createForm(sub::class);
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()){
+            $dm = new Demande();
+            $dm->setUser($this->getUser());
+            $dm->setEvent($event);
+            $manager->persist($dm);
+            $manager->flush();
+
+            return$this->redirectToRoute('app_main');
+
+        }
+
             return $this->render('main/show.html.twig',[
                 'event' => $event,
+                'form' => $form->createView(),
+                'demandes' => $demandes,
             ]);
 }
 

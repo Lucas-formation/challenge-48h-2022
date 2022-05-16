@@ -46,9 +46,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Event::class)]
     private $events;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Demande::class)]
+    private $demandes;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->demandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,6 +231,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($event->getUser() === $this) {
                 $event->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
+
+    public function addDemande(Demande $demande): self
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes[] = $demande;
+            $demande->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demande $demande): self
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getUser() === $this) {
+                $demande->setUser(null);
             }
         }
 
