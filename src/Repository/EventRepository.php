@@ -55,9 +55,9 @@ class EventRepository extends ServiceEntityRepository
 //    }
 public function getEventsByName($saisie){
     return $this->createQueryBuilder('a')
-                ->andWhere('a.titre LIKE :val')
+                ->andWhere('a.Titre LIKE :val')
                 ->setParameter('val',"%$saisie%")
-                ->orderBy('a.titre', 'ASC')
+                ->orderBy('a.Titre', 'ASC')
                 ->getQuery()
                 ->getResult();
 }

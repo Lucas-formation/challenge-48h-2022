@@ -1,0 +1,24 @@
+easy_admin:
+  entities:
+    Event:
+        class: App\Entity\Event
+        form:
+        fields:
+            - {property: 'Titre', label: "Titre"}
+            - {property: 'description', label: "Description"}
+            - { property: 'imageFile', type: "file", label: "Ajout d'une image"}
+            - {property: 'categorie', label: "Catégorie"}
+            - {property: 'place', label: "Place"}
+            - {property: 'state'}
+            - {property: 'location', label: "Localisation"}
+        list:
+          actions:
+            - {name: 'edit', icon: 'pencil', label: false, css_class: 'btn btn-primary'}
+            - {name: 'delete', icon: 'trash', label: false, css_class: 'btn btn-danger'}
+          fields:
+            - { property: 'Titre', label: "Titre"}
+            - { property: 'description', label: "Description"}
+            - { property: 'image', type: "image", base_path: "image/events/"}
+            - { property: 'state'}
+            - { property: 'location'}
+            - { property: 'categorie', label: "Catégorie"}

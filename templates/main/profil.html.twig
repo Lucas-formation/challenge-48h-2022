@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<h1>Profil</h1>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<section class="profil">
+<h2>{{ app.user.prenom }}</h2>
+<h2>{{ app.user.nom }}</h2>
+<h2>{{ app.user.email }}</h2>
+{% for event in app.user.events %}
+	<section class="row article">
+		<article class="col-md-6 mx-auto text-center border border-dark mb-3 p-3 mt-3 mr-1">
+			<h2>{{ event.titre }}</h2>
+			<div class="metadata">
+				dans la
+				{{event.categorie.titre}}</div>
+			<div class="content">
+				<img src="{{ asset('image/events/' ~ event.image) }}" alt="" class="img-fluid">
+				<br>
+				{{ event.description}}
+                {{ event.place}}
+                {{event.location}}
+                <a class="btn btn-primary" href="{{ path('edit_event', {'id': event.id}) }}"><i class="fa fa-pencil"></i></a>
+                <a href="{{ path('show_event', {'id': event.id}) }}" class="btn btn-primary">Voir</a>
+                
+			</div>
+		</article>
+{% endfor %}
+
+
+</section>
+
+
+
+
+{% endblock %}

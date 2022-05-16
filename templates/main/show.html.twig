@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+	<section class="row article">
+		<article class="col-md-6 mx-auto text-center border border-dark mb-3 p-3 mt-3 mr-1">
+			<h2>{{ event.titre }}</h2>
+			<div class="metadata">
+				dans la
+				{{event.categorie.titre}}</div>
+			<div class="content">
+				<img src="{{ asset('image/events/' ~ event.image) }}" alt="" class="img-fluid">
+				<br>
+				{{ event.description|raw }}
+			
+			</div>
+			        <div class="card-body">
+            <p class="card-text text-end fw-bold">{{ event.place }}</p>
+            </div>
+		</article>
+
+
+	</section>
+    {% endblock %}

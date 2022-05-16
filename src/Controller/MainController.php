@@ -45,8 +45,10 @@ class MainController extends AbstractController
         }
         if(!$event){
             $event = new Event;
-            $event->setDatedAt(new \DateTime());
-
+            $event->setDatedAt(new \DateTime('now'));
+            $event->setState(false);
+            $event->setUpdatedAt(new \DateTime('now'));
+            $event->setUser($this->getUser());
 
         }
         
@@ -60,7 +62,7 @@ class MainController extends AbstractController
             {
                 $manager->persist($event);
                 $manager->flush();
-                return $this->redirectToRoute('edit_event',[
+                return $this->redirectToRoute('show_event',[
                     'id' => $event->getId(),
     
                 ]);
@@ -72,5 +74,19 @@ class MainController extends AbstractController
                'event' => $event,
             ]);
             
+}
+#[Route('/challenge/show/{id}', name: 'show_event')]
+    public function show(Event $event): Response
+    {
+            return $this->render('main/show.html.twig',[
+                'event' => $event,
+            ]);
+}
+
+#[Route('/challenge/profil', name: 'profil')]
+public function profil() : Response
+{
+    return $this->render('main/profil.html.twig', [
+    ]);
 }
 }

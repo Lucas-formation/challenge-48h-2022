@@ -54,6 +54,9 @@ class Event
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'events')]
+    private $user;
+
 
     public function getId(): ?int
     {
@@ -180,5 +183,19 @@ class Event
 
         return $this;
     }
+    public function __toString(){
+        return $this->Titre;
+    }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }

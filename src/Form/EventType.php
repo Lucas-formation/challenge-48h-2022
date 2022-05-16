@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class EventType extends AbstractType
 {
@@ -16,7 +17,7 @@ class EventType extends AbstractType
         $builder
             ->add('titre')
             ->add('description')
-            ->add('image')
+            ->add('imageFile', FileType::class,['required' => false])
             ->add('location')
             ->add('place')
             ->add('categorie', EntityType::class, [

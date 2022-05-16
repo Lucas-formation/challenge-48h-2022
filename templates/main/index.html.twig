@@ -4,4 +4,37 @@
 
 {% block body %}
 
+
+{{form_start(formRecherche)}}
+
+{{form_widget(formRecherche.recherche,{
+    attr: {
+        placeholder: "Recherchez un évenement"
+    }
+
+})}}
+
+<button type="submit" class="btn btn-primary">Rechercher</button>
+
+{{form_end(formRecherche)}}
+
+
+<section class="row produits">
+    {% for event in events %}
+    <article class="col-md-4 mx-auto text-center border border-dark mb-3 p-3 mt-3 mr-1">
+        <h2>{{ event.titre }}</h2>
+        <div class="metadata">dans la catégorie {{event.categorie.titre}}</div>
+        <div class="content">
+			<img src="{{ asset('image/events/' ~ event.image) }}" height="250" width="250" alt="" class="img-fluid">
+            <br>
+            {{ event.description| slice(0, 50) |raw }}...<br>
+            {{ event.place}} places
+            <br>
+            <a href="{{ path('show_event', {'id': event.id}) }}" class="btn btn-primary">Lire la suite</a>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+
+
 {% endblock %}
