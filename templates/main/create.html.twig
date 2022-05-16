@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Création d'Evenement{% endblock %}
+
+{% block body %}
+
+<h1>{%if editMode %}
+    Modification du produit
+    {% else %}
+    Création d'un produit
+    {% endif %}
+</h1>
+
+{{form_start(formEvent)}}
+
+{{form_row(formEvent.titre, {
+    'label': "Titre",
+    'attr': {
+        'placeholder': "Titre de l'évenement",
+        }
+})}}
+
+{{form_row(formEvent.description,{
+    'label': "Description",
+    'attr': {
+        'placeholder': "Description de l'évenement",
+        }
+})}}
+
+{{form_row(formEvent.imageFile)}}
+{{form_row(formEvent.location)}}
+{{form_row(formEvent.place)}}
+
+{{form_row(formEvent.categorie,{
+label: "Categorie"
+}) }}
+
+<button type="submit" class="btn btn-primary">
+{%if editMode %}
+    Enregistrer les modifications
+    {% else %}
+    Ajouter l'évenement
+    {% endif %}</button>
+
+{{form_end(formEvent)}}
+
+{% endblock %}
