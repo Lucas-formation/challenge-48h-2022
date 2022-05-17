@@ -54,6 +54,15 @@ class DemandeRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+    public function findByEventAndUserId($value) {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.user = :val')
+            ->setParameter('val',$value)
+            ->orderBy('d.user','ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    public function findOneBySomeField($value): ?Demande
 //    {
 //        return $this->createQueryBuilder('d')

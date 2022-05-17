@@ -24,7 +24,7 @@
                 {{event.location}}
                 <a class="btn btn-primary" href="{{ path('edit_event', {'id': event.id}) }}"><i class="fa fa-pencil"></i></a>
                 <a href="{{ path('show_event', {'id': event.id}) }}" class="btn btn-primary">Voir</a>
-                
+                <a href="{{ path('list_orga', {'id': event.id}) }}" class="btn btn-primary">Liste des participants</a>
 			</div>
 		</article>
 {% endfor %}

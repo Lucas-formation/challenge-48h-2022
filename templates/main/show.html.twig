@@ -19,19 +19,35 @@
             </div>
 
 
-		{% for demande in demandes %}
-			
-		
+
 			{{ form_start(form) }}
-		{% if demande.user is same as(app.user) %}
-		
-    	{{ form_widget(form.submit)}}
+		{% if ask == false %}
+		<button type="submit" class="btn btn-primary">Demander</button>
+		{% else %}
+		<p>Tu as déjà envoyé une demande pour rejoindre </p>
 		{% endif %}
 
 		{{ form_end(form) }}
-		{% endfor %}
-            </div>
 		</article>
+		
+
+{% if is_granted('ROLE_ORGA') %}
+<h2> Liste des Participants: </h2>
+{% for dm in getUser %}
+
+{{dm.user}}
+{{ form_start(formAccept) }}
+{% if dm.isaccepted == false %}
+<a class="btn btn-primary" href="{{ path('showuser_event', {'id': dm.user.id})}}">Accept</a>
+{% else %}
+	<button class="remove">Supprimer de la liste</button>
+{% endif %}
+{{ form_end(formAccept) }}
+<button class="denied">Deny</button>
+
+{% endfor %}
+{% endif %}
+
 
 
 	</section>

@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class PanierService
+class EventService
 {
     private $repo;
     private $rs;
@@ -18,17 +18,15 @@ class PanierService
 }
 
 
-public function add($id){
+public function addToEvent($id){
     $session = $this->rs->getSession();
 
-    $panier = $session->get('panier', []);
-    if(!empty($panier[$id]))
-        $panier[$id]++;
+    $event = $session->get('event', []);
+    if(!empty($event[$id]))
+        $event[$id]++;
     else
-    $panier[$id] = 1;
+    $event[$id] = 1;
     
-    $session->set('panier', $panier);
+    $session->set('event', $event);
 }
-
-
 }

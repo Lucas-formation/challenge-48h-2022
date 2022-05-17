@@ -2,25 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\DemandeRepository;
+use App\Repository\AjoutEventRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DemandeRepository::class)]
-class Demande
+#[ORM\Entity(repositoryClass: AjoutEventRepository::class)]
+class AjoutEvent
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'demandes')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ajoutEvents')]
     private $user;
 
-    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'demandes')]
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'ajoutEvents')]
     private $event;
-
-    #[ORM\Column(type: 'boolean')]
-    private $isAccepted;
 
     public function getId(): ?int
     {
@@ -47,18 +44,6 @@ class Demande
     public function setEvent(?Event $event): self
     {
         $this->event = $event;
-
-        return $this;
-    }
-
-    public function isIsAccepted(): ?bool
-    {
-        return $this->isAccepted;
-    }
-
-    public function setIsAccepted(bool $isAccepted): self
-    {
-        $this->isAccepted = $isAccepted;
 
         return $this;
     }

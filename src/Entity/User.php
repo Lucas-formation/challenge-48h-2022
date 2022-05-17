@@ -49,10 +49,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Demande::class)]
     private $demandes;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: AjoutEvent::class)]
+    private $ajoutEvents;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->demandes = new ArrayCollection();
+        $this->ajoutEvents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -261,6 +265,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($demande->getUser() === $this) {
                 $demande->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AjoutEvent>
+     */
+    public function getAjoutEvents(): Collection
+    {
+        return $this->ajoutEvents;
+    }
+
+    public function addAjoutEvent(AjoutEvent $ajoutEvent): self
+    {
+        if (!$this->ajoutEvents->contains($ajoutEvent)) {
+            $this->ajoutEvents[] = $ajoutEvent;
+            $ajoutEvent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAjoutEvent(AjoutEvent $ajoutEvent): self
+    {
+        if ($this->ajoutEvents->removeElement($ajoutEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($ajoutEvent->getUser() === $this) {
+                $ajoutEvent->setUser(null);
             }
         }
 

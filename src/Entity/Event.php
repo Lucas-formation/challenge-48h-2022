@@ -62,9 +62,13 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Demande::class)]
     private $demandes;
 
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: AjoutEvent::class)]
+    private $ajoutEvents;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
+        $this->ajoutEvents = new ArrayCollection();
     }
 
 
@@ -233,6 +237,36 @@ class Event
             // set the owning side to null (unless already changed)
             if ($demande->getEvent() === $this) {
                 $demande->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AjoutEvent>
+     */
+    public function getAjoutEvents(): Collection
+    {
+        return $this->ajoutEvents;
+    }
+
+    public function addAjoutEvent(AjoutEvent $ajoutEvent): self
+    {
+        if (!$this->ajoutEvents->contains($ajoutEvent)) {
+            $this->ajoutEvents[] = $ajoutEvent;
+            $ajoutEvent->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAjoutEvent(AjoutEvent $ajoutEvent): self
+    {
+        if ($this->ajoutEvents->removeElement($ajoutEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($ajoutEvent->getEvent() === $this) {
+                $ajoutEvent->setEvent(null);
             }
         }
 
